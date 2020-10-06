@@ -45,7 +45,7 @@ switch ($HTTP_method) {
         }
     break;
     case 'POST':
-        $result = $controlCourse->setPost();
+        $result = $controlCourse->setPost2();
         if($result) {
             //var_dump($result);
             echo json_encode($result, JSON_PRETTY_PRINT);

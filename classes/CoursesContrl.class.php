@@ -69,6 +69,43 @@ class CoursesContrl extends CoursesModel
         // Kolla 
     }
 
+    // Skapa post
+    public function setPost2() {
+         // Hämta data från post
+        /* file_get_contents, hämtar rå data innan den hamnar i superglobaler som post och get*/
+        $inputJSON = file_get_contents('php://input');
+        // Från json till php
+        $input = json_decode($inputJSON, TRUE); //convert JSON into array
+        // Sanerera data och lägg array i ny variabel.
+        $cData = filter_var_array($input, FILTER_SANITIZE_SPECIAL_CHARS);
+       // var_dump($cData);
+        //Kör kontroll-metod för att testa att all data finns med och i rätt format/storlek
+        $cData = $this->controlData($cData);
+        //var_dump($cData);
+        if(!isset($cData['Course_name'])) {
+            return $cData;
+            exit();
+        }
+        //Tilldelar variabeler
+        $Course_ID = $cData['Course_ID'];
+        $CourseName = $cData['Course_name'];
+        $Code = $cData['Code'];
+        $Progression = $cData['Progression'];
+        $Course_syllabus = $cData['Course_syllabus'];
+        if($this->sendPost($CourseName, $Code, $Progression, $Course_syllabus)) {
+            $message = ["Message" => "Kursen sparades i databasen!"];
+            return $message;
+            exit();
+        } 
+        else {
+            $errorMsg = ["Message" => "Något gick fel när kursen skulle sparas i databasen"];
+            return $errorMsg;
+            exit();
+        }
+
+    }
+
+
     // Uppdatera
     public function updatePost() {
         // Hämta data från post
@@ -109,6 +146,8 @@ class CoursesContrl extends CoursesModel
             exit();
         }   
     }
+
+
     // Funktion för att kontrollera indata, både för ny post och uppdateringar
     public function controlData($cData) {
           /* If either of required fields are empty, error array with input-data and message. */
