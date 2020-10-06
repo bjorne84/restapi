@@ -119,6 +119,10 @@ class CoursesContrl extends CoursesModel
         //Kör kontroll-metod för att testa att all data finns med och i rätt format/storlek
         $cData = $this->controlData($cData);
         //var_dump($cData);
+        if(!isset($cData['Course_name'])) {
+            return $cData;
+            exit();
+        }
         //Tilldelar variabeler
         $Course_ID = $cData['Course_ID'];
         $CourseName = $cData['Course_name'];
