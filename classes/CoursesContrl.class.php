@@ -87,7 +87,6 @@ class CoursesContrl extends CoursesModel
             exit();
         }
         //Tilldelar variabeler
-        $Course_ID = $cData['Course_ID'];
         $CourseName = $cData['Course_name'];
         $Code = $cData['Code'];
         $Progression = $cData['Progression'];
@@ -97,6 +96,7 @@ class CoursesContrl extends CoursesModel
             return $message;
             exit();
         } else {
+            http_response_code(503); // Fel på server
             $errorMsg = ["Message" => "Något gick fel när kursen skulle sparas i databasen"];
             return $errorMsg;
             exit();
@@ -135,15 +135,18 @@ class CoursesContrl extends CoursesModel
             $lenght = mb_strlen($Course_ID);
             if ($lenght === 4) {
                 $this->updateSQL($CourseName, $Code, $Progression, $Course_syllabus, $Course_ID);
+                http_response_code(200); // Kursen uppdaterad
                 $message = ["Message" => "Kursen uppdaterades med information i databasen!"];
                 return $message;
                 exit();
             } else {
+                http_response_code(503); // Fel på server
                 $errorMsg = ["Message" => "ID har fyra siffror"];
                 return $errorMsg;
                 exit();
             }
         } else {
+            http_response_code(503); // Fel på server
             $errorMsg = ["Message" => "ID måste skickas med och består endast av siffor!"];
             return $errorMsg;
             exit();
@@ -210,12 +213,14 @@ class CoursesContrl extends CoursesModel
 
                 //Kollar om ID exesterar annars skrivs felkod ut
                 $testId = $this->checkId($Course_ID);
-                if ($testId !== true) {
+               // print_r($testId);
+                if ($testId == "") {
                     http_response_code(404);
                     $message = ["Message" => "ID existerar ej, kunde inte hittas i databasen"];
                     return $message;
                     exit();
                 }
+                // Kör igång delete-funktionen i databasen
                 $this->deleteSQL($Course_ID);
                 //Responskod på att gått bra
                 http_response_code(200);

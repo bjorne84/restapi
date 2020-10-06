@@ -20,6 +20,7 @@ class CoursesModel extends Dbc
         $sql = "SELECT * FROM courses";
         $result = $this->connect()->query($sql);
         return $result->fetchAll();
+        exit();
     }
 
     // Hämta poster för Enskilt ID
@@ -38,13 +39,16 @@ class CoursesModel extends Dbc
                 $stmt->execute([$id]);
                 $result = $stmt->fetch();
                 return $result;
+                exit();
             } else {
                 $result = "ID har fyra siffror";
                 return $result;
+                exit();
             }
         } else {
             $result = "ID består av endast siffror";
             return $result;
+            exit();
         }
     }
 

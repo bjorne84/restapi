@@ -48,6 +48,7 @@ switch ($HTTP_method) {
         $result = $controlCourse->setPost2();
         if($result) {
             //var_dump($result);
+            http_response_code(201); // Kurs skapad
             echo json_encode($result, JSON_PRETTY_PRINT);
         }
     break;
@@ -67,6 +68,6 @@ switch ($HTTP_method) {
         }
     break;    
 
-    //
+    // $this->close();
 
 }
