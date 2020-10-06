@@ -57,5 +57,16 @@ switch ($HTTP_method) {
             //var_dump($result);
             echo json_encode($result, JSON_PRETTY_PRINT);
         }
+    break;
+    case 'DELETE':
+        // respons-koder osv körs i deletepost
+        $result = $controlCourse->deletePost();
+        if($result) {
+            //var_dump($result);
+            echo json_encode($result, JSON_PRETTY_PRINT);
+        }
+    break;    
+
+    //
 
 }

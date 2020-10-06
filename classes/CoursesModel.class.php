@@ -67,4 +67,21 @@ class CoursesModel extends Dbc
     return true;
     }
 
+    // Kontrollerar om ett ID existerar
+    public function checkId($Course_ID) {
+        $sql = "SELECT Course_ID FROM Courses WHERE Course_ID = ?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$Course_ID]);
+        $result = $stmt->fetch();
+        return $result;
+    }
+
+    // Ta bort post ur databasen
+    public function deleteSQL($Course_ID) {
+        $sql = "DELETE FROM courses WHERE Course_ID = ?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$Course_ID]);
+        return true;
+    }
+
 }

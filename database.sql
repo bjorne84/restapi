@@ -44,3 +44,9 @@ SELECT * FROM courses;
 
 /* Specifikt id*/
 SELECT * FROM courses WHERE Course_ID = 1001;
+
+/* Delete post */
+DELETE FROM courses WHERE Course_ID = 1006;
+
+/* Kolla om ett id finns */
+SELECT Course_ID  FROM Courses WHERE Course_ID  = 1007;

@@ -24,28 +24,28 @@ class CoursesContrl extends CoursesModel
         // Controll lenght of input data
 
         // Course_Name max 70 caracters
-        if(mb_strlen($cData['Course_name'])>70) {
+        if (mb_strlen($cData['Course_name']) > 70) {
             $errorMsg = ["Message" => "Kursnamnet kan max vara 70 tecken långt"];
             return $errorMsg;
             exit();
         }
 
         // Code always 6 caracters
-        if(mb_strlen($cData['Code'])!==6) {
+        if (mb_strlen($cData['Code']) !== 6) {
             $errorMsg = ["Message" => "Kurskoden är alltid 6 tecken långt, prova igen!"];
             return $errorMsg;
             exit();
         }
 
         // Progression just one and allways a letter
-        if(mb_strlen($cData['Progression'])!==1) {
+        if (mb_strlen($cData['Progression']) !== 1) {
             $errorMsg = ["Message" => "Progression är alltid bara en bokstav!"];
             return $errorMsg;
             exit();
         }
 
-         // Course_syllabus max 250 characters 
-         if(mb_strlen($cData['Course_syllabus'])>250) {
+        // Course_syllabus max 250 characters 
+        if (mb_strlen($cData['Course_syllabus']) > 250) {
             $errorMsg = ["Message" => "Länken till kursplanen kan max vara 250 tecken långt"];
             return $errorMsg;
             exit();
@@ -55,12 +55,11 @@ class CoursesContrl extends CoursesModel
         $Code = $cData['Code'];
         $Progression = $cData['Progression'];
         $Course_syllabus = $cData['Course_syllabus'];
-        if($this->sendPost($CourseName, $Code, $Progression, $Course_syllabus)) {
+        if ($this->sendPost($CourseName, $Code, $Progression, $Course_syllabus)) {
             $message = ["Message" => "Kursen sparades i databasen!"];
             return $message;
             exit();
-        } 
-        else {
+        } else {
             $errorMsg = ["Message" => "Något gick fel när kursen skulle sparas i databasen"];
             return $errorMsg;
             exit();
@@ -70,19 +69,20 @@ class CoursesContrl extends CoursesModel
     }
 
     // Skapa post
-    public function setPost2() {
-         // Hämta data från post
+    public function setPost2()
+    {
+        // Hämta data från post
         /* file_get_contents, hämtar rå data innan den hamnar i superglobaler som post och get*/
         $inputJSON = file_get_contents('php://input');
         // Från json till php
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         // Sanerera data och lägg array i ny variabel.
         $cData = filter_var_array($input, FILTER_SANITIZE_SPECIAL_CHARS);
-       // var_dump($cData);
+        // var_dump($cData);
         //Kör kontroll-metod för att testa att all data finns med och i rätt format/storlek
         $cData = $this->controlData($cData);
         //var_dump($cData);
-        if(!isset($cData['Course_name'])) {
+        if (!isset($cData['Course_name'])) {
             return $cData;
             exit();
         }
@@ -92,22 +92,21 @@ class CoursesContrl extends CoursesModel
         $Code = $cData['Code'];
         $Progression = $cData['Progression'];
         $Course_syllabus = $cData['Course_syllabus'];
-        if($this->sendPost($CourseName, $Code, $Progression, $Course_syllabus)) {
+        if ($this->sendPost($CourseName, $Code, $Progression, $Course_syllabus)) {
             $message = ["Message" => "Kursen sparades i databasen!"];
             return $message;
             exit();
-        } 
-        else {
+        } else {
             $errorMsg = ["Message" => "Något gick fel när kursen skulle sparas i databasen"];
             return $errorMsg;
             exit();
         }
-
     }
 
 
     // Uppdatera
-    public function updatePost() {
+    public function updatePost()
+    {
         // Hämta data från post
         /* file_get_contents, hämtar rå data innan den hamnar i superglobaler som post och get*/
         $inputJSON = file_get_contents('php://input');
@@ -119,7 +118,7 @@ class CoursesContrl extends CoursesModel
         //Kör kontroll-metod för att testa att all data finns med och i rätt format/storlek
         $cData = $this->controlData($cData);
         //var_dump($cData);
-        if(!isset($cData['Course_name'])) {
+        if (!isset($cData['Course_name'])) {
             return $cData;
             exit();
         }
@@ -135,7 +134,7 @@ class CoursesContrl extends CoursesModel
             //check lenght
             $lenght = mb_strlen($Course_ID);
             if ($lenght === 4) {
-                $this->updateSQL($CourseName, $Code, $Progression, $Course_syllabus,$Course_ID);
+                $this->updateSQL($CourseName, $Code, $Progression, $Course_syllabus, $Course_ID);
                 $message = ["Message" => "Kursen uppdaterades med information i databasen!"];
                 return $message;
                 exit();
@@ -144,18 +143,19 @@ class CoursesContrl extends CoursesModel
                 return $errorMsg;
                 exit();
             }
-        }  else {
+        } else {
             $errorMsg = ["Message" => "ID måste skickas med och består endast av siffor!"];
             return $errorMsg;
             exit();
-        }   
+        }
     }
 
 
     // Funktion för att kontrollera indata, både för ny post och uppdateringar
-    public function controlData($cData) {
-          /* If either of required fields are empty, error array with input-data and message. */
-          if (empty($cData['Course_name']) || empty($cData['Code']) || empty($cData['Progression']) || empty($cData['Course_syllabus'])) {
+    public function controlData($cData)
+    {
+        /* If either of required fields are empty, error array with input-data and message. */
+        if (empty($cData['Course_name']) || empty($cData['Code']) || empty($cData['Progression']) || empty($cData['Course_syllabus'])) {
             $errorMsg = ["Message" => "Du måste skicka med all efterfrågad data, kursnamn, kurskod, progression och kursplan"];
             return $errorMsg;
             exit();
@@ -163,25 +163,25 @@ class CoursesContrl extends CoursesModel
         // ----- Controll lenght of input data --------
 
         // Course_Name max 70 caracters
-        if(mb_strlen($cData['Course_name'])>70) {
+        if (mb_strlen($cData['Course_name']) > 70) {
             $errorMsg = ["Message" => "Kursnamnet kan max vara 70 tecken långt"];
             return $errorMsg;
             exit();
         }
         // Code always 6 caracters
-        if(mb_strlen($cData['Code'])!==6) {
+        if (mb_strlen($cData['Code']) !== 6) {
             $errorMsg = ["Message" => "Kurskoden är alltid 6 tecken långt, prova igen!"];
             return $errorMsg;
             exit();
         }
         // Progression just one and allways a letter
-        if(mb_strlen($cData['Progression'])!==1) {
+        if (mb_strlen($cData['Progression']) !== 1) {
             $errorMsg = ["Message" => "Progression är alltid bara en bokstav!"];
             return $errorMsg;
             exit();
         }
-         // Course_syllabus max 250 characters 
-         if(mb_strlen($cData['Course_syllabus'])>250) {
+        // Course_syllabus max 250 characters 
+        if (mb_strlen($cData['Course_syllabus']) > 250) {
             $errorMsg = ["Message" => "Länken till kursplanen kan max vara 250 tecken långt"];
             return $errorMsg;
             exit();
@@ -189,12 +189,52 @@ class CoursesContrl extends CoursesModel
         return $cData;
     }
 
-    // Uppdatera kurs
+    // Ta bort kurs, delete, hämtar id via json
+    public function deletePost()
+    {
+        // Hämta data från post
+        /* file_get_contents, hämtar rå data innan den hamnar i superglobaler som post och get*/
+        $inputJSON = file_get_contents('php://input');
+        // Från json till php
+        $input = json_decode($inputJSON, TRUE); //convert JSON into array
+        // Sanerera data och lägg array i ny variabel.
+        $cData = filter_var_array($input, FILTER_SANITIZE_SPECIAL_CHARS);
+        // Tilldelar variabel
+        $Course_ID = $cData['Course_ID'];
 
+        // Kollar att det är ok ID
+        if (is_numeric($Course_ID)) {
+            //check lenght
+            $lenght = mb_strlen($Course_ID);
+            if ($lenght === 4) {
 
-
-
-
-
-
+                //Kollar om ID exesterar annars skrivs felkod ut
+                $testId = $this->checkId($Course_ID);
+                if ($testId !== true) {
+                    http_response_code(404);
+                    $message = ["Message" => "ID existerar ej, kunde inte hittas i databasen"];
+                    return $message;
+                    exit();
+                }
+                $this->deleteSQL($Course_ID);
+                //Responskod på att gått bra
+                http_response_code(200);
+                $message = ["Message" => "Kursen raderades från databasen!"];
+                return $message;
+                exit();
+            } else {
+                //server errer respons
+                http_response_code(503);
+                $errorMsg = ["Message" => "ID har fyra siffror"];
+                return $errorMsg;
+                exit();
+            }
+        } else {
+            //Not Extended
+            http_response_code(510);
+            $errorMsg = ["Message" => "ID måste skickas med och består endast av siffor!"];
+            return $errorMsg;
+            exit();
+        }
+    }
 }
