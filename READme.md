@@ -5,15 +5,18 @@ med uppgifter om de kurser som ungår i Webbutveckling 120 hp.
 Det ligger en htaccess-fil som är inställd så att filändelsen inte behöver skrivas 
 in i URL:en.
 
+Addressen som alla kommandon ligger sköts ifrån är:
+http://webb01.se/REST_Api/index
+
 ## Funktionaliet
 Det är möjligt att hämta, posta, uppdatera och radera data via api:et. 
 
 ### GET - Hämta
-Antingen kan du hämta alla data, du anger enbart addressen http://localhost/REST_Api/index
+Antingen kan du hämta alla data, du anger enbart addressen http://webb01.se/REST_Api/index
 och väljer http-metoden GET, för att få fram alla kurser som en JSON-fil.
 
 Du kan också hämta en specifik kurs, ange då id i adressfältet på följande sätt:
-exempel: http://localhost/REST_Api/index.php?id=1002
+exempel: http://webb01.se/REST_Api/index?id=1002
 
 ### POST - Skapa ny kurs
 Skicka in en JSON-sträng med data över ny kurs som du vill lägga till.

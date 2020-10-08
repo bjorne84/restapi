@@ -12,12 +12,12 @@ class CoursesModel extends Dbc
     }
 
     // GET data, 
-
+ 
     //alla poster
     public function getAllPosts()
     {
         // SQL fråga
-        $sql = "SELECT * FROM courses";
+        $sql = "SELECT * FROM Courses";
         $result = $this->connect()->query($sql);
         return $result->fetchAll();
         exit();
@@ -34,7 +34,7 @@ class CoursesModel extends Dbc
             $lenght = mb_strlen($id);
             if ($lenght === 4) {
                 // SQL-fråga. med preperad statement
-                $sql = "SELECT * FROM courses WHERE Course_ID = ? ";
+                $sql = "SELECT * FROM Courses WHERE Course_ID = ? ";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->execute([$id]);
                 $result = $stmt->fetch();
@@ -82,7 +82,7 @@ class CoursesModel extends Dbc
 
     // Ta bort post ur databasen
     public function deleteSQL($Course_ID) {
-        $sql = "DELETE FROM courses WHERE Course_ID = ?";
+        $sql = "DELETE FROM Courses WHERE Course_ID = ?";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$Course_ID]);
         return true;
